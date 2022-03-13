@@ -75,9 +75,9 @@ def update_checkpoint(str_num, addr):
     no_enter=False
     for line in fille:
         word_list = line.split(' ')
-        print word_list
+        print(word_list)
         for word in word_list:
-            print word
+            print(word)
 
             if '\n' in word:
                 word=re.sub('\n','', word)
@@ -97,7 +97,7 @@ def update_checkpoint(str_num, addr):
                     break
             out += word
         out += '\n'
-    print out
+    print(out)
     fille.close()
 
     fille = open(addr, "w+")
@@ -119,7 +119,7 @@ class rq(object):
     def get_data(self):
         if self.config.if_simulation_data:
             dirname = os.path.abspath('data/generator/')
-            print 'dirname is ===> ' ,dirname
+            print('dirname is ===> ' ,dirname)
             if self.config.larry_test:
                 # get data
                 train_mat_x = np.load(os.path.join(dirname,'rq_larry_x_train.npy'))
@@ -153,7 +153,7 @@ class rq(object):
             test_limit = 1+99
             if self.clusters != 1:
                 self.train_x = train_mat_x[:,0,:]
-                print "self.train_x", np.shape(self.train_x)
+                print("self.train_x", np.shape(self.train_x))
                 self.test_x = test_mat_x[0:test_limit*2500,0,:]
             else:
                 self.train_x = train_mat_x[:,:]
@@ -167,7 +167,7 @@ class rq(object):
             self.valid_y = np.squeeze(test_mat_y[0:1*2500])
             self.ind_valid = index_mat_test[0:1*2500,:]
             self.test_x = self.test_x[1*2500:test_limit*2500,:]
-            print "self.test_x", np.shape(self.test_x)
+            print("self.test_x", np.shape(self.test_x))
             self.test_y = np.squeeze(test_mat_y[1*2500:test_limit*2500])
             self.ind_test = index_mat_test[1*2500:test_limit*2500,:]
 
@@ -406,7 +406,7 @@ class rq(object):
                     if np.abs(self.r_new[cls]-self.r_old) < epsilon:
                         notStop = False
             if self.if_print_eil_solutions:
-                print cls, '( %0.2f' %self.r_new[cls] ,', %0.2f' %self.Q_new[cls], ')', 'g(r,Q) is: %0.2f' %(self.ch*(self.r_new[cls] - self.lambdaa*self.l[cls] + self.Q_new[cls]/2) + self.K*self.lambdaa/self.Q_new[cls] + self.cp*self.lambdaa*self.nr/self.Q_new[cls]), i, 'iterations'
+                print(cls, '( %0.2f' %self.r_new[cls] ,', %0.2f' %self.Q_new[cls], ')', 'g(r,Q) is: %0.2f' %(self.ch*(self.r_new[cls] - self.lambdaa*self.l[cls] + self.Q_new[cls]/2) + self.K*self.lambdaa/self.Q_new[cls] + self.cp*self.lambdaa*self.nr/self.Q_new[cls]), i, 'iterations')
 
     # It gets EIL cost based on given self.r_new and self.Q_new, obtained by
     # self.get_EIL_solution(). It goes over all demand (which are self.train_y,
@@ -432,12 +432,12 @@ class rq(object):
     def print_EIL_costs(self):
         '''print EIL cost for all avilable demand data'''
         # get optimal solutions
-        print 'optimal solutions'
+        print('optimal solutions')
         cost_val = self.get_eil_cost(self.valid_y, self.ind_valid)
         cost_tr = self.get_eil_cost(self.train_y, self.ind_train)
-        print '\t \t optimal' , '\t', 'DNN'
-        print 'train \t %0.1f' %cost_tr
-        print 'valid \t %0.1f' %cost_val
+        print('\t \t optimal' , '\t', 'DNN')
+        print('train \t %0.1f' %cost_tr)
+        print('valid \t %0.1f' %cost_val)
 
     def get_aprx_solution(self):
         '''get approximated solution of (r,Q) policy, since approximate the distribution by normal
@@ -516,10 +516,10 @@ class rq(object):
                     if np.abs(self.rP_new[cls]-self.rP_old) < epsilon:
                         notStop = False
             if self.if_print_aprx_rq_solutions:
-                print cls, '( %0.2f' %(self.rP_new[cls]) ,', %0.2f' %self.QP_new[cls], ')', 'g(r,Q) is: %0.2f' \
+                print(cls, '( %0.2f' %(self.rP_new[cls]) ,', %0.2f' %self.QP_new[cls], ')', 'g(r,Q) is: %0.2f' \
                 %(self.ch*(self.rP_new[cls] - self.lambdaa*self.l[cls] + self.QP_new[cls]/2) +
                 self.K*self.lambdaa/self.QP_new[cls] +
-                (self.cp + self.ch)*self.lambdaa*self.n2r/self.QP_new[cls]) , i, 'iterations'
+                (self.cp + self.ch)*self.lambdaa*self.n2r/self.QP_new[cls]) , i, 'iterations')
 
 
     def variable_builder_rand(self, shape):
@@ -710,15 +710,15 @@ class rq(object):
                         out = self.sess.run([self.cost_function, self.y],feed_dict)
                         r = np.unique(out[1][:,0])
                         q = np.unique(out[1][:,1])
-                        print "(r,Q)= ", r, q
+                        print("(r,Q)= ", r, q)
 
                     if self.if_print_rQ_test_set:
-                        print ""
-                        print self.sess.run(self.y,feed_dict={self.x: self.train_x})
-                        print self.sess.run(self.y,feed_dict={self.x: self.valid_x})
+                        print("")
+                        print(self.sess.run(self.y,feed_dict={self.x: self.train_x}))
+                        print(self.sess.run(self.y,feed_dict={self.x: self.valid_x}))
 
             self.saver.save(self.sess, self.model_dir+'/model', global_step=self.iter)
-            print "network weights are saved"
+            print("network weights are saved")
 
 
         else:
@@ -743,34 +743,34 @@ class rq(object):
 
     def print_EIL_DNN_costs(self):
         ''' get optimal solutions, prints the EIL and DNN cost and the improvement of DNN over EIL '''
-        print 'optimal solutions'
+        print('optimal solutions')
         cost_val = self.get_eil_cost(self.valid_y, self.ind_valid)
         cost_tr = self.get_eil_cost(self.train_y, self.ind_train)
-        print '\t   optimal' , '\t', '   DNN'
-        print 'train \t ', "%.1f" %cost_tr, '\t', "%.1f" %self.train_result[-1],\
-                '\t', "%.3f" %((self.train_result[-1] - cost_tr)/cost_tr)
-        print 'valid \t ', "%.1f" %cost_val, '\t', "%.1f" %self.val_result[-1],\
-                '\t', "%.3f" %((self.val_result[-1] - cost_val)/cost_val)
-        print 'avg train real cost',  cost_tr/self.train_size, ',avg validation real cost', \
-            cost_val/self.valid_size
+        print('\t   optimal' , '\t', '   DNN')
+        print('train \t ', "%.1f" %cost_tr, '\t', "%.1f" %self.train_result[-1],\
+                '\t', "%.3f" %((self.train_result[-1] - cost_tr)/cost_tr))
+        print('valid \t ', "%.1f" %cost_val, '\t', "%.1f" %self.val_result[-1],\
+                '\t', "%.3f" %((self.val_result[-1] - cost_val)/cost_val))
+        print('avg train real cost',  cost_tr/self.train_size, ',avg validation real cost', \
+            cost_val/self.valid_size)
 
     def print_EIL_DNN_KNN_costs(self):
         ''' get optimal solutions '''
-        print 'optimal solutions'
+        print('optimal solutions')
         cost_val = self.get_eil_cost(self.valid_y, self.ind_valid)
         cost_te = self.get_eil_cost(self.test_y, self.ind_test)
         cost_tr = self.get_eil_cost(self.train_y, self.ind_train)
-        print '\t  \t  \t  optimal' , '\t', '     DNN' , '\t', '         KNN'
-        print self.dis,  self.clusters, 'train \t ', "%.1f" %cost_tr, '\t', "%.1f" %self.train_result[-1],\
-                '\t 0 \t', "%.3f" %((self.train_result[-1] - cost_tr)/cost_tr)
-        print self.dis,  self.clusters, 'valid \t ', "%.1f" %cost_val, '\t', "%.1f" %self.val_result[-1],\
-                '\t 0 \t', "%.3f" %((self.val_result[-1] - cost_val)/cost_val)
-        print self.dis,  self.clusters, 'test \t ', \
+        print('\t  \t  \t  optimal' , '\t', '     DNN' , '\t', '         KNN')
+        print(self.dis,  self.clusters, 'train \t ', "%.1f" %cost_tr, '\t', "%.1f" %self.train_result[-1],\
+                '\t 0 \t', "%.3f" %((self.train_result[-1] - cost_tr)/cost_tr))
+        print(self.dis,  self.clusters, 'valid \t ', "%.1f" %cost_val, '\t', "%.1f" %self.val_result[-1],\
+                '\t 0 \t', "%.3f" %((self.val_result[-1] - cost_val)/cost_val))
+        print(self.dis,  self.clusters, 'test \t ', \
         "%.1f" %cost_te, '\t', "%.1f" %self.test_result[-1],\
                 '\t', "%.1f" %(self.g_knn_total), \
-            '\t', "%.3f" %((self.test_result[-1] - cost_te)/cost_te)
-        print 'avg train real cost',  cost_tr/self.train_size, ',avg validation real cost', \
-            cost_val/self.valid_size, ',avg test real cost', cost_te/self.test_size
+            '\t', "%.3f" %((self.test_result[-1] - cost_te)/cost_te))
+        print('avg train real cost',  cost_tr/self.train_size, ',avg validation real cost', \
+            cost_val/self.valid_size, ',avg test real cost', cost_te/self.test_size)
 
 
     def set_knn_settings(self, k_):
@@ -830,9 +830,9 @@ class rq(object):
                 self.K*self.lambdaa/self.Q_knn[te] + self.cp*self.lambdaa*nr/self.Q_knn[te]
             self.g_knn_total += g
             if self.config.if_print_knn_solutions:
-                print te, '(', self.r_knn[te] ,',', self.Q_knn[te], ')', 'g(r,Q) is: ', g , i, 'iterations'
+                print(te, '(', self.r_knn[te] ,',', self.Q_knn[te], ')', 'g(r,Q) is: ', g , i, 'iterations')
         if self.config.if_print_knn_final_cost:
-            print self.g_knn_total
+            print(self.g_knn_total)
 
 
     def restore_dnn(self):
@@ -840,10 +840,10 @@ class rq(object):
         checkpoint = tf.train.get_checkpoint_state(self.model_dir)
         if checkpoint and checkpoint.model_checkpoint_path:
             self.saver.restore(self.sess, checkpoint.model_checkpoint_path)
-            print "Successfully loaded:", checkpoint.model_checkpoint_path
+            print("Successfully loaded:", checkpoint.model_checkpoint_path)
 
         else:
-            print "Could not find old network weights in", self.model_dir
+            print("Could not find old network weights in", self.model_dir)
 
     def call_dnn_fp(self):
         ''' calls the forward pass of train, validation, and the test datasets'''
@@ -1141,20 +1141,20 @@ class rq(object):
                 self.IL_eil[i,t+1] = self.IL_eil[i,t] + self.AO_eil[i,t]
 
                 if t%20 == 0:
-                    print t, "periods passed of item ", i
-        print "dnn \t", "knn \t", "eil \t"
-        print self.dis, self.clusters, "%0.2f" %(sum(np.sum(self.dnn_cost, axis=1))), \
+                    print(t, "periods passed of item ", i)
+        print("dnn \t", "knn \t", "eil \t")
+        print(self.dis, self.clusters, "%0.2f" %(sum(np.sum(self.dnn_cost, axis=1))), \
             "%0.2f" %(sum(np.sum(self.knn_cost, axis=1))), \
-            "%0.2f" %(sum(np.sum(self.eil_cost, axis=1)))
-        print self.dis, "mean", self.clusters, "%0.2f" %(np.mean(self.dnn_cost)), \
+            "%0.2f" %(sum(np.sum(self.eil_cost, axis=1))))
+        print(self.dis, "mean", self.clusters, "%0.2f" %(np.mean(self.dnn_cost)), \
             "%0.2f" %(np.mean(self.knn_cost)), \
-            "%0.2f" %(np.mean(self.eil_cost))
-        print self.dis, "std", self.clusters, "%0.2f" %(np.std(self.dnn_cost)), \
+            "%0.2f" %(np.mean(self.eil_cost)))
+        print(self.dis, "std", self.clusters, "%0.2f" %(np.std(self.dnn_cost)), \
             "%0.2f" %(np.std(self.knn_cost)), \
-            "%0.2f" %(np.std(self.eil_cost))
-        print self.dis, "obs_count", self.clusters, "%d" %(obs_count)
-        print self.dis, self.clusters, "cpu times are %0.2f" %(dnn_time), \
-            "%0.2f" %(knn_time)
+            "%0.2f" %(np.std(self.eil_cost)))
+        print(self.dis, "obs_count", self.clusters, "%d" %(obs_count))
+        print(self.dis, self.clusters, "cpu times are %0.2f" %(dnn_time), \
+            "%0.2f" %(knn_time))
 
 
     def get_network(self, net_num):
@@ -1175,7 +1175,7 @@ class rq(object):
             var_list = checkpoint_utils.list_variables(self.model_dir)
             for v in var_list:
                 if 'Adam_' in v[0]:
-                    print v
+                    print(v)
                     if cnt == 0:
                         w += [v[1][0]]
                     if len(v[1]) == 1:
@@ -1295,12 +1295,12 @@ class rq(object):
 
                 self.IL_dnn[i,t+1] = self.IL_dnn[i,t] + self.AO_dnn[i,t]
 
-        print "dnn \t"
-        print self.dis, self.clusters, net_num, "%0.2f" %(sum(np.sum(self.dnn_cost, axis=1)))
-        print self.dis, "mean", self.clusters, net_num,  "%0.2f" %(np.mean(self.dnn_cost))
-        print self.dis, "std", self.clusters, net_num,  "%0.2f" %(np.std(self.dnn_cost))
-        print self.dis, "obs_count", self.clusters, net_num,  "%d" %(obs_count)
-        print self.dis, self.clusters, "cpu times are %0.2f" %(dnn_time)
+        print("dnn \t")
+        print(self.dis, self.clusters, net_num, "%0.2f" %(sum(np.sum(self.dnn_cost, axis=1))))
+        print(self.dis, "mean", self.clusters, net_num,  "%0.2f" %(np.mean(self.dnn_cost)))
+        print(self.dis, "std", self.clusters, net_num,  "%0.2f" %(np.std(self.dnn_cost)))
+        print(self.dis, "obs_count", self.clusters, net_num,  "%d" %(obs_count))
+        print(self.dis, self.clusters, "cpu times are %0.2f" %(dnn_time))
 
 
 
@@ -1318,7 +1318,7 @@ def restore_and_run(distribution, cluster, nodes, last_run, str_no, max_iter=500
         real_cluster=203
     else:
         real_cluster = cluster
-    print dist, cluster
+    print(dist, cluster)
 
     # initialize everything
     tf.reset_default_graph()
@@ -1383,7 +1383,7 @@ def run_new_model(distribution, cluster, nodes, last_run, str_no, max_iter=50000
         real_cluster=203
     else:
         real_cluster = cluster
-    print dist, cluster
+    print(dist, cluster)
 
     tf.reset_default_graph()
     config.decay_rate = 0.0005
@@ -1441,7 +1441,7 @@ def load_rnn_saved_model(dist, cluster):
         real_cluster=203
     else:
         real_cluster = cluster
-    print dist, cluster
+    print(dist, cluster)
 
     # initialize everything
     tf.reset_default_graph()
@@ -1489,9 +1489,9 @@ def load_rnn_saved_model(dist, cluster):
     out = rq_model.test_result
     r = np.unique(out[0][1][:,0])
     q = np.unique(out[0][1][:,1])
-    print ""
-    print "cost= %0.2f" %(out[0][0])
-    print "(r,Q)=", r, q
+    print("")
+    print("cost= %0.2f" %(out[0][0]))
+    print("(r,Q)=", r, q)
 
 
 def call_simulator(config, distribution, cluster):
