@@ -8,7 +8,7 @@ import scipy.stats as sts
 import pandas as pd
 import time
 
-tf.logging.set_verbosity(tf.logging.FATAL)
+# tf.logging.set_verbosity(tf.logging.FATAL)
 import matplotlib.pyplot as plt
 
 from sklearn.neighbors import NearestNeighbors
@@ -642,9 +642,9 @@ class rq(object):
             self.c = tf.where(self.result, self.c_h[:,0], self.c_p[:,0])
             # cost function
             # tf.mul returns x * y element-wise.
-            if (loss_type is 'L2'):
+            if (loss_type == 'L2'):
                 self.cost_function = tf.reduce_mean(tf.square(tf.multiply(self.diff, self.c)))/2
-            elif (loss_type is 'L1'):
+            elif (loss_type == 'L1'):
                 self.cost_function = tf.reduce_mean(tf.abs(tf.multiply(self.diff, self.c)))/2
 
             self.nw_cost_function = tf.reduce_sum(tf.abs(tf.multiply(self.diff, self.c)))
