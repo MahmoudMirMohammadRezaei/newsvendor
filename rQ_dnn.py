@@ -1,5 +1,6 @@
 import sys
 import os
+# Needed for Nvida machine to use cuda
 # os.environ["CUDA_VISIBLE_DEVICES"]= str(2)
 import tensorflow as tf
 import numpy as np
@@ -8,6 +9,7 @@ import scipy.stats as sts
 import pandas as pd
 import time
 
+# upgrading tensorflow version cant use this logging
 # tf.logging.set_verbosity(tf.logging.FATAL)
 import matplotlib.pyplot as plt
 
@@ -1026,7 +1028,8 @@ class rq(object):
 
 
         if not self.config.use_current_trained_network:
-            tf.reset_default_graph()
+            # tf.reset_default_graph()
+            tf.compat.v1.reset_default_graph()
 
             # create the dnn model
             self.set_dnn_settings()
@@ -1214,7 +1217,8 @@ class rq(object):
                 self.test_data_dic[i] = test_data_pd[test_data_pd[0]==i].values
 
 
-        tf.reset_default_graph()
+        # tf.reset_default_graph()
+        tf.compat.v1.reset_default_graph()
 
         # create the dnn model
         self.set_dnn_settings()
@@ -1321,7 +1325,9 @@ def restore_and_run(distribution, cluster, nodes, last_run, str_no, max_iter=500
     print(dist, cluster)
 
     # initialize everything
-    tf.reset_default_graph()
+    # tf.reset_default_graph()
+    tf.compat.v1.reset_default_graph()
+
     config.decay_rate = 0.0005
     config.decay_rate_stair = 0.96
     config.starter_learning_rate = lr
@@ -1385,7 +1391,8 @@ def run_new_model(distribution, cluster, nodes, last_run, str_no, max_iter=50000
         real_cluster = cluster
     print(dist, cluster)
 
-    tf.reset_default_graph()
+    # tf.reset_default_graph()
+    tf.compat.v1.reset_default_graph()
     config.decay_rate = 0.0005
     config.decay_rate_stair = 0.96
     config.starter_learning_rate = lr
@@ -1444,7 +1451,8 @@ def load_rnn_saved_model(dist, cluster):
     print(dist, cluster)
 
     # initialize everything
-    tf.reset_default_graph()
+    # tf.reset_default_graph()
+    tf.compat.v1.reset_default_graph()
     rq_model=rq(cluster, real_cluster, dist, config)
     rq_model.get_data()
     rq_model.get_mu_sigma()
@@ -1512,7 +1520,8 @@ def call_simulator(config, distribution, cluster):
     else:
         cluster_real = cluster
 
-    tf.reset_default_graph()
+    # tf.reset_default_graph()
+    tf.compat.v1.reset_default_graph()
     rq_model=rq(cluster, cluster_real, dist, config)
     rq_model.get_data()
     rq_model.get_mu_sigma()
@@ -1538,7 +1547,8 @@ def run_simulator_get_best_network(config, distribution, cluster):
     else:
         cluster_real = cluster
 
-    tf.reset_default_graph()
+    # tf.reset_default_graph()
+    tf.compat.v1.reset_default_graph()
     rq_model=rq(cluster, cluster_real, dist, config)
 
     for i in range(100):
@@ -1565,7 +1575,8 @@ def run_dnn_simulator_single_specific_network(config, distribution, cluster, str
     else:
         cluster_real = cluster
 
-    tf.reset_default_graph()
+    # tf.reset_default_graph()
+    tf.compat.v1.reset_default_graph()
     rq_model=rq(cluster, cluster_real, dist, config)
 
     rq_model.get_data()
