@@ -10,7 +10,7 @@ import pandas as pd
 import time
 
 # upgrading tensorflow version cant use this logging
-tf.logging.set_verbosity(tf.logging.FATAL)
+# tf.logging.set_verbosity(tf.logging.FATAL)
 import matplotlib.pyplot as plt
 
 from sklearn.neighbors import NearestNeighbors
@@ -1585,6 +1585,7 @@ def run_dnn_simulator_single_specific_network(config, distribution, cluster, str
     rq_model.run_simulator_select_best(str_num)
 
 if __name__ == '__main__':
+    print("--> --> --> -->")
     print("the args is: --->",sys.argv)
 
     dist = sys.argv[1] # distribution
