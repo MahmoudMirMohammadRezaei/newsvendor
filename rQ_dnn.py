@@ -1,7 +1,7 @@
 import sys
 import os
 # Needed for Nvida machine to use cuda
-# os.environ["CUDA_VISIBLE_DEVICES"]= str(2)
+os.environ["CUDA_VISIBLE_DEVICES"]= str(2)
 import tensorflow as tf
 import numpy as np
 import scipy.io as sio

@@ -3,3 +3,6 @@ Also, the basket dataset will be included. Currently the code to generate simula
 
 The main file to run is `rQ_dnn.py`, which includes all the functions to train both the newsvendor and rQ model.
 
+<!-- Extra -->
+Exporting anaconda packages to the current directory is with this command
+    conda list -e > req.txt
