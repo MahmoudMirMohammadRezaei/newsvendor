@@ -26,6 +26,8 @@ parser = argparse.ArgumentParser()
 def add_argument_group(name):
     arg = parser.add_argument_group(name)
     arg_lists.append(arg)
+    print('arg:', arg)
+    print('arg_lists:', arg_lists)
     return arg
 
 def str2bool(v):
@@ -1584,15 +1586,26 @@ def run_dnn_simulator_single_specific_network(config, distribution, cluster, str
     rq_model.set_rq_settings()
     rq_model.run_simulator_select_best(str_num)
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    # print(f"{bcolors.WARNING}Warning: No active frommets remain. Continue?{bcolors.ENDC}")
+
 if __name__ == '__main__':
-    print("--> --> --> -->")
-    print("the args is: --->",sys.argv)
+    print("The argument passed is: ---> ",sys.argv)
 
     dist = sys.argv[1] # distribution
-    cluster = int(sys.argv[2]) # cluster
+    print("Distribution is: ---> ",dist)
 
-    print("the dist is: --->",dist)
-    print("the cluster is: --->",cluster)
+    cluster = int(sys.argv[2]) # cluster
+    print("Cluster is: ---> ",cluster)
 
     if len(sys.argv) >=4:
         # 1-> it runs all saved network, otherwise it runs the best selected network.
@@ -1615,4 +1628,4 @@ if __name__ == '__main__':
         call_simulator(config, dist, cluster)
 
 
-#check git
+#check gitc
