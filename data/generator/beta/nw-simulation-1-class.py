@@ -83,8 +83,8 @@ X, Xt, y, yt, ind, indt = train_test_split(inputs, suma, index, train_size=7500)
 # sio.savemat('/home/afo214/tensorflow/newsvendor/simulation/data/beta/IndexY-nw-10000-1-class', mdict={'IndexY': indt})
 
 # dirname = os.path.abspath('/home/mahmood/Desktop/TEZ/DpNewsvendorEnv/newsvendor/simulation/data/hdf5')
-dirname = os.path.abspath('/home/mahmood/Desktop/TEZ/DpNewsvendorEnv/newsvendor/data/generator/beta')
-# /home/mahmood/Desktop/TEZ/DpNewsvendorEnv/newsvendor/data/generator
+# dirname = os.path.abspath('/home/mahmood/Desktop/TEZ/DpNewsvendorEnv/newsvendor/data/generator/beta')
+dirname = os.path.abspath('\\Mahmoodev\\newsvendor\\data\\generator\\beta')
 sio.savemat(dirname + '/TrainX-nw-10000-1-class', mdict={'trainX': X})
 sio.savemat(dirname + '/TrainY-nw-10000-1-class', mdict={'trainY': y})
 sio.savemat(dirname + '/TestX-nw-10000-1-class', mdict={'testX': Xt})
@@ -100,7 +100,8 @@ Testh5 = 'Test-nw-10000-1-class.h5'
 Testtxt = 'Test-nw-10000-1-class.txt'
 
 # Write out the data to HDF5 files in a temp directory.                                                                                         # This file is assumed to be caffe_root/examples/hdf5_classification.ipynb                                                                       
-dirname = os.path.abspath('/home/mahmood/Desktop/TEZ/DpNewsvendorEnv/newsvendor/simulation/data/hdf5')
+# dirname = os.path.abspath('/home/mahmood/Desktop/TEZ/DpNewsvendorEnv/newsvendor/simulation/data/hdf5')
+dirname = os.path.abspath('/Mahmoodev/newsvendor/simulation/data/hdf5')
 if not os.path.exists(dirname):
     os.makedirs(dirname)
 

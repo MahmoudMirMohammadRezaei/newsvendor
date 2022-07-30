@@ -138,7 +138,11 @@ class rq(object):
                 print("dirname is --->", dirname)
                 print("self kazem is --->", str(self.real_cluster))
                 # get data
-                train_mat_x = sio.loadmat(os.path.join(dirname,'TrainX-nw-10000-'+str(self.real_cluster)+'-class.mat'))
+                print("--> ")
+                # print(os.path.join(dirname,'TrainX-nw-10000-'+str(self.real_cluster)+'-class.mat'))
+                print(os.path.join("G:\\Mahmoodev\\newsvendor\\data\\generator\\beta",'TrainX-nw-10000-'+str(self.real_cluster)+'-class.mat'))
+                print("--> ")
+                train_mat_x = sio.loadmat(os.path.join("G:\\Mahmoodev\\newsvendor\\data\\generator\\beta",'TrainX-nw-10000-'+str(self.real_cluster)+'-class.mat'))
 
                 print("ma isssssss---->",  train_mat_x)
                 train_mat_y = sio.loadmat(os.path.join(dirname,'TrainY-nw-10000-'+str(self.real_cluster)+'-class.mat'))
