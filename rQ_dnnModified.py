@@ -8,6 +8,7 @@ import scipy.io as sio
 import scipy.stats as sts
 import pandas as pd
 import time
+import tf_slim as slim
 
 # upgrading tensorflow version cant use this logging
 # tf.logging.set_verbosity(tf.logging.FATAL)
@@ -282,11 +283,11 @@ class rq(object):
         # if it is ture, it uses relu activation function, otherwise uses sigmoid
         self.ifRelu = True
 
-        config_tf = tf.ConfigProto()
+        config_tf = tf.compat.v1.ConfigProto()
         # config_tf.gpu_options.per_process_gpu_memory_fraction = 0.1
         config_tf.gpu_options.allow_growth = True
         config_tf.intra_op_parallelism_threads = 1
-        self.sess = tf.InteractiveSession(config=config_tf)
+        self.sess = tf.compat.v1.InteractiveSession(config=config_tf)
 
         cur_dir=os.path.realpath("./saved_networks")
         cur_dir=os.path.join(cur_dir, self.dis)
@@ -545,16 +546,20 @@ class rq(object):
         #from tensorflow.examples.tutorials.mnist import input_data
         # placeholders, which are the training data
 
-        self.x = tf.placeholder(tf.float64, shape=[None,self.input_dim], name='x')
-        self.y_ = tf.placeholder(tf.float64, shape=[None], name='y_')
-        self.init_IL = tf.placeholder(tf.float64, shape=[None,1], name='init_IL')
-        self.learning_rate = tf.placeholder(tf.float64, shape=[], name='lr')
-        self.zero = tf.placeholder(tf.float64, shape=[None,1], name='zero')
-        self.c_h = tf.placeholder(tf.float64, shape=[None,1], name='c_h')
-        self.c_p = tf.placeholder(tf.float64, shape=[None,1], name='c_p')
-        self.K_ = tf.placeholder(tf.float64, shape=[None,1], name='K')
-        self.L_ = tf.placeholder(tf.float64, shape=[None,1], name='L')
-        self.lambdaa_ = tf.placeholder(tf.float64, shape=[None,1], name='lambdaa')
+        tf.compat.v1.disable_eager_execution()
+
+
+        
+        self.x = tf.compat.v1.placeholder(tf.float64, shape=[None,self.input_dim], name='x')
+        self.y_ = tf.compat.v1.placeholder(tf.float64, shape=[None], name='y_')
+        self.init_IL = tf.compat.v1.placeholder(tf.float64, shape=[None,1], name='init_IL')
+        self.learning_rate = tf.compat.v1.placeholder(tf.float64, shape=[], name='lr')
+        self.zero = tf.compat.v1.placeholder(tf.float64, shape=[None,1], name='zero')
+        self.c_h = tf.compat.v1.placeholder(tf.float64, shape=[None,1], name='c_h')
+        self.c_p = tf.compat.v1.placeholder(tf.float64, shape=[None,1], name='c_p')
+        self.K_ = tf.compat.v1.placeholder(tf.float64, shape=[None,1], name='K')
+        self.L_ = tf.compat.v1.placeholder(tf.float64, shape=[None,1], name='L')
+        self.lambdaa_ = tf.compat.v1.placeholder(tf.float64, shape=[None,1], name='lambdaa')
 
         self.w=[]
         self.b=[]
@@ -668,15 +673,15 @@ class rq(object):
         # define the training paramters and model, gradient model and feeding the function
         #train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(loss, global_step=global_step)
         # train_step = tf.train.MomentumOptimizer(learning_rate,0.9).minimize(loss, global_step=global_step)
-        learning_rate = tf.train.exponential_decay(self.config.rl0, self.global_step,
+        learning_rate = tf.compat.v1.train.exponential_decay(self.config.rl0, self.global_step,
                                            self.config.decay_step, self.config.decay_rate_stair, staircase=True)
-        self.train_step = tf.train.AdamOptimizer(learning_rate,0.9,0.999,1e-8).minimize(
+        self.train_step = tf.compat.v1.train.AdamOptimizer(learning_rate,0.9,0.999,1e-8).minimize(
                                 self.loss, global_step=self.global_step)
         # initilize the variables
         # self.saver = tf.train.Saverconfig()
-        self.saver = tf.train.Saver()
+        self.saver = tf.compat.v1.train.Saver()
 
-        self.sess.run(tf.global_variables_initializer())
+        self.sess.run(tf.compat.v1.global_variables_initializer())
         self.iter = 0
 
 
@@ -1170,8 +1175,11 @@ class rq(object):
         ''' This function gets the network structure of a given saved model and
         returns it in "w". '''
         # import checkpoint_utils as checkpoint_utils
-        from tensorflow.contrib.framework.python.framework import checkpoint_utils
-        self.model_dir = '/scratch/afo214/newsvendor/rq_runner_code/saved_networks/'
+        # from tensorflow.contrib.framework.python.framework import checkpoint_utils
+        
+        # self.model_dir = '/scratch/afo214/newsvendor/rq_runner_code/saved_networks/'
+        # chaging path to my local
+        self.model_dir = 'G:\\Mahmoodev\\newsvendor\\saved_networks'
         self.model_dir = os.path.join(self.model_dir, self.dis)
         self.model_dir = os.path.join(self.model_dir, str(self.clusters))
         self.model_dir = os.path.join(self.model_dir, str(net_num))
@@ -1181,7 +1189,8 @@ class rq(object):
         w =[]
         cnt = 0
         if checkpoint and checkpoint.model_checkpoint_path:
-            var_list = checkpoint_utils.list_variables(self.model_dir)
+            # var_list = checkpoint_utils.list_variables(self.model_dir)
+            var_list = slim.list_variables(self.model_dir)
             for v in var_list:
                 if 'Adam_' in v[0]:
                     print(v)
